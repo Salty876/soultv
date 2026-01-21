@@ -1,38 +1,18 @@
-# create-svelte
+# Soul TV
+A full-stack media streaming web application built with **SvelteKit** and deployed on **Cloudflare Workers**, designed to explore edge-first architectures, server-side rendering, and performance-optimized content delivery.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+> **Note:**  
+> The live deployment is currently offline to avoid ongoing hosting costs.  
+> This repository contains the complete implementation, architecture, and deployment configuration.
 
-## Creating a project
+---
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Overview
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+This project is a production-style streaming platform that leverages **edge computing** to deliver low-latency responses globally without relying on a traditional centralized backend.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+The goals of this project were to:
+- Build a realistic **full-stack web application**
+- Deploy server logic at the **network edge**
+- Explore **SSR, caching, and serverless trade-offs**
+- Design clean, maintainable application architecture
