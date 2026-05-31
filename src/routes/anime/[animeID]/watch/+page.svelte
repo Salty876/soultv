@@ -10,17 +10,11 @@
 
 </head>
 
-
-
-
-
-
 <script>
 import EpisodeBox from '../../../../../components/episode-box.svelte';
 import Card from  '../../../../../components/show-card.svelte'
 
 import { onMount } from 'svelte';
-
 
 
 
@@ -35,10 +29,11 @@ import { onMount } from 'svelte';
      onMount(async() => {
         
  
-        // decode the encoded episode id so full URLs can be passed as a single path segment
-        episodeCode = decodeURIComponent(window.location.pathname.split('/')[4] || "")
+        // read episode from querystring so full URLs with slashes are preserved
+        const params = new URLSearchParams(window.location.search || "");
+        episodeCode = decodeURIComponent(params.get('episode') || "")
         animeCode = decodeURIComponent(window.location.pathname.split('/')[2] || "")
-        console.log(episodeCode)
+        console.log('episodeCode (from query):', episodeCode)
         
    
 
@@ -80,7 +75,6 @@ import { onMount } from 'svelte';
 
     })
   
-
 
 
 </script>

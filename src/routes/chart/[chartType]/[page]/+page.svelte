@@ -23,7 +23,7 @@
         }
         officalName=  word.join(' ')
 
-        const res = await fetch(`https://hippoanimeapi.vercel.app/anime/zoro/${pref}?page=${page}`);
+        const res = await fetch(`/api/anime/list/${pref}/${page}`);
 		info = await res.json();
 
 

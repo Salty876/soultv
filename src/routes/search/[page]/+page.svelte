@@ -24,7 +24,7 @@ let page
         console.log(page)
 
 
-        const res = await fetch(`https://hippoanimeapi.vercel.app/anime/zoro/${properTarget}?page=${page}`);
+        const res = await fetch(`/api/anime/list/search/${page}?q=${encodeURIComponent(properTarget)}`);
 		searchResults = await res.json();
 
         console.log(searchResults)

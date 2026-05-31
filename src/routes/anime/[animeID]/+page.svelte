@@ -13,6 +13,7 @@
     let tempCode = []
     let animeData
     let MALanime
+    let fillerData
     let organizedEpisodes
     let arrayof100
     let order = 'desc'
@@ -29,13 +30,25 @@
         tempCode = window.location.pathname.split('/')
       
         
-        const res = await fetch("https://hippoanimeapi.vercel.app/anime/zoro/info?id=" + tempCode[2]);
-		animeData = await res.json();
+        const res = await fetch(`/api/anime/${encodeURIComponent(tempCode[2])}`);
+        const payload = await res.json();
+        animeData = payload.animeData;
 
+        const fillerRes = await fetch(`/api/anime/${encodeURIComponent(tempCode[2])}/filler`);
+        fillerData = await fillerRes.json();
 
-        const rep = await fetch("https://api.jikan.moe/v4/anime/" + animeData.malID +"/full");
-		MALanime = await rep.json();
-        MALanime = MALanime.data
+        animeData.episodes = animeData.episodes.map((episode) => {
+            const fillerEpisode = fillerData.episodes?.find((entry) => entry.number === episode.number);
+            return {
+                ...episode,
+                isFiller: fillerEpisode ? fillerEpisode.isFiller : episode.isFiller,
+                fillerStatus: fillerEpisode ? fillerEpisode.fillerStatus : null,
+            };
+        });
+
+        const rep = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(animeData.title)}&sfw`);
+        const malPayload = await rep.json();
+        MALanime = malPayload.data?.[0] || null;
         console.log(MALanime)
 
 
@@ -76,7 +89,7 @@
 
 </svelte:head>
 
-{#if animeData && MALanime}
+    {#if animeData}
 <div class='top-container'>
     <div class="right-info">
 
@@ -90,7 +103,7 @@
                     WATCH NOW!
                 </button>
             </a>
-            <p class="synopsis">{MALanime.synopsis}</p>
+            <p class="synopsis">{animeData.synopsis}</p>
             <h1 class="title">{animeData.title}</h1>
 
         </div>
@@ -98,16 +111,16 @@
     </div>
 
     <div class="left-info">
-        <p class="info"><strong>Japanese: </strong>{MALanime.title_japanese }</p>
-        <p class="info"><strong>Premiered: </strong>{MALanime.year}</p>
-        <p class="info"><strong>Status: </strong>{MALanime.status}</p>      
+            <p class="info"><strong>Japanese: </strong>{MALanime?.title_japanese || animeData.title }</p>
+        <p class="info"><strong>Premiered: </strong>{MALanime?.year || animeData.premiered}</p>
+        <p class="info"><strong>Status: </strong>{MALanime?.status || animeData.status}</p>      
         <p class="info"><strong>Total Episodes: </strong>{animeData.totalEpisodes}</p>  
         <p class="info"><strong>Type: </strong>{animeData.type}</p>  
-        <p class="info"><strong>Rating: </strong>{MALanime.score}/10</p>  
+        <p class="info"><strong>Rating: </strong>{MALanime?.score ? `${MALanime.score}/10` : 'N/A'}</p>  
 
 
               <div class="genres">
-        {#each MALanime.genres as genre}
+        {#each MALanime?.genres || [] as genre}
             
                 <button class="genre-button">
                     {genre.name}

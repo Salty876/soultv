@@ -29,7 +29,9 @@
         {:else}
             <h3 class="anime-title">{title.slice(0,40)}...</h3>
         {/if}
-        <p>{episodes} Episodes</p>
+        {#if episodes}
+            <p>{episodes} Episodes</p>
+        {/if}
     </div>
 </div>
 </a>

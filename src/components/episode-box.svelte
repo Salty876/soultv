@@ -5,7 +5,8 @@
     export let filler
 </script>
 
-<a href="/anime/{animeID}/watch/{episodeID}">
+<!-- Use a query parameter for the episode so full URLs with slashes don't break routing -->
+<a href={"/anime/" + animeID + "/watch?episode=" + encodeURIComponent(episodeID)}>
     {#if filler === true}
 
     <button class="episode-box-filler">
